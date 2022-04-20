@@ -1,0 +1,389 @@
+system = '32_system, bios_version 2666, driver_version 2666'
+download = 'Ok'
+user = 'oK'
+version = 2666
+lock = 0
+uslock = 0
+x = 1
+y = 0
+def start():
+    from pyfiglet import print_figlet
+    print_figlet('Welcome')
+    return 'load...'
+
+print(start())
+user = input('User...')
+while True:
+    command = input("C:User>  ")
+    doi = 0
+    if command == 'chmod 777':
+        ch = 1
+        doi = 777
+    elif command == 'chmod 775':
+        ch = 2
+        doi = 775
+    if command == 'Create file':
+        if ch == 1:
+            file = input('Сontent...')
+            doi = 6423
+        elif ch == 2:
+            print('Access closed')
+    elif command == 'Read file':
+        print(file)
+        doi = 7654
+    if command == 'Clean file':
+        file = ''
+    if command == 'Hello world!':
+        from pyfiglet import print_figlet
+        print_figlet('Hello world!')
+    if command == 'Ls':
+        print('1 file')
+    if command == 'Shutdown':
+        exit()
+    if command == 'Kill all procces -a':
+        import os
+        os.system('shutdown -s')
+    if command == 'cd -f':
+        print('fille/...')
+    if command == 'play game':
+        print('ok')
+    if command == 'cmd':
+        commandcmd = input('C:/user> ')
+    if command == 'install server':
+        import socket
+
+        server = socket.create_server(('', 80))
+        content = input('Введите ваш контент').encode('utf-8')
+        server.listen(100)
+        while True:
+            print('working...')
+            print('ip - http://' + '...' + '/retos/')
+            client_socket, address = server.accept()
+            data = client_socket.recv(1024).decode('utf-8')
+            print(data)
+            HDRS = 'HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=utf-8\r\n\r\n'
+            client_socket.send(HDRS.encode('utf-8') + content)
+            client_socket.shutdown(socket.SHUT_WR)
+            print('server created')
+
+    if command == 'brouser':
+        from PyQt5.QtCore import *
+        from PyQt5.QtWidgets import *
+        from PyQt5.QtWebEngineWidgets import *
+        import sys
+
+
+        # creating main window class
+        class MainWindow(QMainWindow):
+
+            # constructor
+            def __init__(self, *args, **kwargs):
+                super(MainWindow, self).__init__(*args, **kwargs)
+
+                # creating a QWebEngineView
+                self.browser = QWebEngineView()
+
+                # setting default browser url as google
+                self.browser.setUrl(QUrl("http://google.com"))
+
+                # adding action when url get changed
+                self.browser.urlChanged.connect(self.update_urlbar)
+
+                # adding action when loading is finished
+                self.browser.loadFinished.connect(self.update_title)
+
+                # set this browser as central widget or main window
+                self.setCentralWidget(self.browser)
+
+                # creating a status bar object
+                self.status = QStatusBar()
+
+                # adding status bar to the main window
+                self.setStatusBar(self.status)
+
+                # creating QToolBar for navigation
+                navtb = QToolBar("Navigation")
+
+                # adding this tool bar tot he main window
+                self.addToolBar(navtb)
+
+                # adding actions to the tool bar
+                # creating a action for back
+                back_btn = QAction("Back", self)
+
+                # setting status tip
+                back_btn.setStatusTip("Back to previous page")
+
+                # adding action to the back button
+                # making browser go back
+                back_btn.triggered.connect(self.browser.back)
+
+                # adding this action to tool bar
+                navtb.addAction(back_btn)
+
+                # similarly for forward action
+                next_btn = QAction("Forward", self)
+                next_btn.setStatusTip("Forward to next page")
+
+                # adding action to the next button
+                # making browser go forward
+                next_btn.triggered.connect(self.browser.forward)
+                navtb.addAction(next_btn)
+
+                # similarly for reload action
+                reload_btn = QAction("Reload", self)
+                reload_btn.setStatusTip("Reload page")
+
+                # adding action to the reload button
+                # making browser to reload
+                reload_btn.triggered.connect(self.browser.reload)
+                navtb.addAction(reload_btn)
+
+                # similarly for home action
+                home_btn = QAction("Home", self)
+                home_btn.setStatusTip("Go home")
+                home_btn.triggered.connect(self.navigate_home)
+                navtb.addAction(home_btn)
+
+                # adding a separator in the tool bar
+                navtb.addSeparator()
+
+                # creating a line edit for the url
+                self.urlbar = QLineEdit()
+
+                # adding action when return key is pressed
+                self.urlbar.returnPressed.connect(self.navigate_to_url)
+
+                # adding this to the tool bar
+                navtb.addWidget(self.urlbar)
+
+                # adding stop action to the tool bar
+                stop_btn = QAction("Stop", self)
+                stop_btn.setStatusTip("Stop loading current page")
+
+                # adding action to the stop button
+                # making browser to stop
+                stop_btn.triggered.connect(self.browser.stop)
+                navtb.addAction(stop_btn)
+
+                # showing all the components
+                self.show()
+
+            # method for updating the title of the window
+            def update_title(self):
+                title = self.browser.page().title()
+                self.setWindowTitle("% s - Geek Browser" % title)
+
+            # method called by the home action
+            def navigate_home(self):
+                # open the google
+                self.browser.setUrl(QUrl("http://www.google.com"))
+
+            # method called by the line edit when return key is pressed
+            def navigate_to_url(self):
+                # getting url and converting it to QUrl object
+                q = QUrl(self.urlbar.text())
+
+                # if url is scheme is blank
+                if q.scheme() == "":
+                    # set url scheme to html
+                    q.setScheme("http")
+
+                # set the url to the browser
+                self.browser.setUrl(q)
+
+            # method for updating url
+            # this method is called by the QWebEngineView object
+            def update_urlbar(self, q):
+                # setting text to the url bar
+                self.urlbar.setText(q.toString())
+
+                # setting cursor position of the url bar
+                self.urlbar.setCursorPosition(0)
+
+
+        # creating a pyQt5 application
+        app = QApplication(sys.argv)
+
+        # setting name to the application
+        app.setApplicationName("Chrome Web Browser")
+
+        # creating a main window object
+        window = MainWindow()
+
+        # loop
+        app.exec_()
+    if command == 'Game 1':
+        import pygame
+        import time
+        import random
+
+        pygame.init()
+
+        white = (255, 255, 255)
+        yellow = (255, 255, 102)
+        black = (0, 0, 0)
+        red = (213, 50, 80)
+        green = (0, 255, 0)
+        blue = (50, 153, 213)
+
+        dis_width = 600
+        dis_height = 400
+
+        dis = pygame.display.set_mode((dis_width, dis_height))
+        pygame.display.set_caption('Game 1')
+
+        clock = pygame.time.Clock()
+
+        snake_block = 10
+        snake_speed = 15
+
+        font_style = pygame.font.SysFont("bahnschrift", 25)
+        score_font = pygame.font.SysFont("comicsansms", 35)
+
+
+        def our_snake(snake_block, snake_list):
+            for x in snake_list:
+                pygame.draw.rect(dis, black, [x[0], x[1], snake_block, snake_block])
+
+
+        def message(msg, color):
+            mesg = font_style.render(msg, True, color)
+            dis.blit(mesg, [dis_width / 6, dis_height / 3])
+
+
+        def gameLoop():
+            game_over = False
+            game_close = False
+
+            x1 = dis_width / 2
+            y1 = dis_height / 2
+
+            x1_change = 0
+            y1_change = 0
+
+            snake_List = []
+            Length_of_snake = 1
+
+            foodx = round(random.randrange(0, dis_width - snake_block) / 10.0) * 10.0
+            foody = round(random.randrange(0, dis_height - snake_block) / 10.0) * 10.0
+
+            while not game_over:
+
+                while game_close == True:
+                    dis.fill(blue)
+                    message("You Lost! Press C-Play Again or Q-Quit", red)
+
+                    pygame.display.update()
+
+                    for event in pygame.event.get():
+                        if event.type == pygame.KEYDOWN:
+                            if event.key == pygame.K_q:
+                                game_over = True
+                                game_close = False
+                            if event.key == pygame.K_c:
+                                gameLoop()
+
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        game_over = True
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_LEFT:
+                            x1_change = -snake_block
+                            y1_change = 0
+                        elif event.key == pygame.K_RIGHT:
+                            x1_change = snake_block
+                            y1_change = 0
+                        elif event.key == pygame.K_UP:
+                            y1_change = -snake_block
+                            x1_change = 0
+                        elif event.key == pygame.K_DOWN:
+                            y1_change = snake_block
+                            x1_change = 0
+
+                if x1 >= dis_width or x1 < 0 or y1 >= dis_height or y1 < 0:
+                    game_close = True
+                x1 += x1_change
+                y1 += y1_change
+                dis.fill(blue)
+                pygame.draw.rect(dis, green, [foodx, foody, snake_block, snake_block])
+                snake_Head = []
+                snake_Head.append(x1)
+                snake_Head.append(y1)
+                snake_List.append(snake_Head)
+                if len(snake_List) > Length_of_snake:
+                    del snake_List[0]
+
+                for x in snake_List[:-1]:
+                    if x == snake_Head:
+                        game_close = True
+
+                our_snake(snake_block, snake_List)
+
+                pygame.display.update()
+
+                if x1 == foodx and y1 == foody:
+                    foodx = round(random.randrange(0, dis_width - snake_block) / 10.0) * 10.0
+                    foody = round(random.randrange(0, dis_height - snake_block) / 10.0) * 10.0
+                    Length_of_snake += 1
+
+                clock.tick(snake_speed)
+
+            pygame.quit()
+            quit()
+
+
+        gameLoop()
+    if command == 'Game 2':
+        import pygame
+
+        pygame.init()
+
+        white = (255, 255, 255)
+        black = (0, 0, 0)
+        red = (255, 0, 0)
+
+        dis = pygame.display.set_mode((800, 600))
+        pygame.display.set_caption('Game 2')
+
+        game_over = False
+
+        x1 = 300
+        y1 = 300
+
+        x1_change = 0
+        y1_change = 0
+
+        clock = pygame.time.Clock()
+
+        while not game_over:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    game_over = True
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_LEFT:
+                        x1_change = -10
+                        y1_change = 0
+                    elif event.key == pygame.K_RIGHT:
+                        x1_change = 10
+                        y1_change = 0
+                    elif event.key == pygame.K_UP:
+                        y1_change = -10
+                        x1_change = 0
+                    elif event.key == pygame.K_DOWN:
+                        y1_change = 10
+                        x1_change = 0
+
+            x1 += x1_change
+            y1 += y1_change
+            dis.fill(white)
+            pygame.draw.rect(dis, red, [x1, y1, 10, 10])
+
+            pygame.display.update()
+
+            clock.tick(30)
+
+        pygame.quit()
+        quit()
+    if command == 'Create nft':
+        print('temporarily not working')
